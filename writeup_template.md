@@ -59,34 +59,15 @@ I used a combination of color and gradient thresholds to generate a binary image
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 The code for my perspective transform includes a function called `warper()`, which appears in lines 32 through 47 in function `undistort_threshold_image()` in the file `./project2.ipynb`. I chose the hardcode the source and destination points in the following manner:
-y_boundary = 450
-    x_top_left = 565
-    x_top_right = 695#685
-    x_bottom_left = 0 
-    x_bottom_right = width 
-    mask_vertices = [[0,height],[x_top_left,y_boundary], [x_top_right,y_boundary],[x_bottom_right,height]]
-   
-```python
-src = np.float32(
-    [[(height / 2) - 55, width / 2 + 100],
-    [((height / 6) - 10), width],
-    [(height * 5 / 6) + 60, width],
-    [(height / 2 + 55), width / 2 + 100]])
-dst = np.float32(
-    [[(height / 4), 0],
-    [(height / 4), img_size[1]],
-    [(height * 3 / 4), img_size[1]],
-    [(height * 3 / 4), 0]])
-```
-
+find a region that include lanes and project that region to a persepctive view of a complete image size 
 This resulted in the following source and destination points:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
+| 0, 720      | 0, 720        | 
+| 565, 450      | 0, 0      |
+| 695, 450     | 1280, 0      |
+| 1280, 720     | 1280, 720      |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
@@ -114,7 +95,7 @@ I implemented this step in lines 2 through 7 in my code in function `process_ima
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](.test_videos_output/project_video.mp4)
+Here's a [link to my video result](./test_videos_output/project_video.mp4)
 
 ---
 
@@ -122,4 +103,5 @@ Here's a [link to my video result](.test_videos_output/project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-1. defects: manually defining src and dst perspective transoform not reliable, depends on 
+1. Manually defining src and dst points for perspective transoform is not reliable, this may fit well for some videos but not for other videos, depending on the camaero position and road condition
+2. If the line of sight is short, for example if there is big curves in front of the vehicle, the line detection may not work well because I defined the region mask manually 
