@@ -103,5 +103,17 @@ Here's a [link to my video result](./test_videos_output/project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-1. Manually defining src and dst points for perspective transoform is not reliable, this may fit well for some videos but not for other videos, depending on the camaero position and road condition
-2. If the line of sight is short, for example if there is big curves in front of the vehicle, the line detection may not work well because I defined the region mask manually 
+
+##### 1. Consideration of problems/issues faced.
+What were the difficulties encountered during project implementation? How were these issues/difficulties overcomed?
+The shadows in the video introduce a lot of noises that caused  my polynomial fit to fail. It could not fit two parallel curves. I fixed this by adding a filter of lightness since shadow has low lightness value. This works pretty well and filter out almost all the noise.
+
+##### 2. what could be improved.
+Is there any particular part of the model that could be improved?Are there other better ways of lane detection?
+The perspective tranform is manually defined in terms of src and dst points. This is not reliable since this may fit well for some videos but not for other videos, depending on the camaero position and road condition
+If the line of sight is short, for example if there is big curves in front of the vehicle, the line detection may not work well because I defined the region mask manually 
+A better solution should be defineing perspective transform using some automatic algorithm.
+
+##### 3. what hypothetical cases would cause the pipeline to fail.
+The pipelin is assuming there is no obstacles in front of the camera that may introduce noise for lane detection.
+If there is any object in front of the camera, like a vehicle nearby or a biker, this pipeline may fail.
